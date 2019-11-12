@@ -9,7 +9,7 @@ class LoginDemo extends JFrame implements ActionListener {
     JLabel user_label, password_label, message;
     JTextField userName_text;
     JPasswordField password_text;
-    JButton submit, cancel;
+    JButton submit, cancel,newUser;
 
     LoginDemo() {
 
@@ -24,6 +24,9 @@ class LoginDemo extends JFrame implements ActionListener {
         password_label.setText("Password :");
         password_text = new JPasswordField();
 
+        //newUser label
+        newUser = new JButton("SIGN UP");
+
         // Submit
 
         submit = new JButton("SUBMIT");
@@ -37,18 +40,20 @@ class LoginDemo extends JFrame implements ActionListener {
         message = new JLabel();
         panel.add(message);
         panel.add(submit);
+        //panel.add(newUser); uncomment this when read to test to see how it changes the window's format and size
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Adding the listeners to components..
         submit.addActionListener(this);
+        newUser.addActionListener(this);
         add(panel, BorderLayout.CENTER);
         setTitle("Please Login Here !");
         setSize(450,350);
         setVisible(true);
     }
 
-    @Override
+    @Override// might need to take this out. the override might make it the action for both submit and newUser buttons
     public void actionPerformed(ActionEvent ae) {
         // needs safe input - needs to loop till correct.
         String userName = userName_text.getText();
