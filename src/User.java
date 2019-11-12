@@ -35,21 +35,24 @@ public class User {
         return receivedPassword;
     }
 
-    public void login(String userName, String password) { // should take in the username and password as paramaters. this is public so it can be accessed from outside but the rest of the methods here are private.
+    public static void login(String userName, String password) { // should take in the username and password as paramaters. this is public so it can be accessed from outside but the rest of the methods here are private.
         checkUser(userName, encrypt(password));
     }
 
-    public void createUser(String userName, String password) throws FileNotFoundException {
+    public static void createUser(String userName, String password) throws FileNotFoundException {
         checkUserExists(userName);// returns a boolean - true for they do exist
-        //if the above returns true so the user exists then have them enter again
+        //if the above returns true  the user exists then have them enter again
+        //safeinput to add the user
         writeToFile(userName, encrypt(password));
 
         login(userName, password);// has them login after creating it to make sure
     }
 
-    private String encrypt(String passwordToHash) {
+    private static String encrypt(String passwordToHash) {
 
         // very basic and not all that secure - MD5
+        // from - https://howtodoinjava.com/security/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/
+
         String generatedPassword = null;
         try {
             // Create MessageDigest instance for MD5
@@ -73,48 +76,48 @@ public class User {
         return generatedPassword;
     }
 
-    private boolean checkUser(String userName, String passwordEncrypted) {
+    private static boolean checkUser(String userName, String passwordEncrypted) {
         //checks the file using the username then checks then compares the hashed passwords to see if they are the same.
         // should return true if user has correct password and false otherwise
         return true;
     }
 
-    private void writeToFile(String userName, String passwordEncrypted) {
+    private static void writeToFile(String userName, String passwordEncrypted) {
         //writes to the user file when making a new user
         //file format: Bobbyhart9333, Bobby, Hart, 8390g3ugb2i0n29f0
         //                userName    first  last  hashed passWord
     }
 
-    private boolean checkUserExists(String userName) throws FileNotFoundException {
+    private static boolean checkUserExists(String userName) throws FileNotFoundException {
         // returns true if user exists and false if does not. we want it to be false
         //only checks usernames not passwords.
         boolean userExists = false;
         ArrayList<User> users = new ArrayList<>();
         users = usersFromFile();
-        for(User k: users)
-        {
-            if(userName.equals(k)){
+        for (User k : users) {
+            if (userName.equals(k.getReceivedUserName())) { // this checks the username of all the User objects in users arrayList
                 userExists = true;
             }
         }
         return userExists;
     }
-    private ArrayList<User> usersFromFile() throws FileNotFoundException {
+
+    private static ArrayList<User> usersFromFile() throws FileNotFoundException {
         ArrayList<User> users = new ArrayList<>();
         Scanner in;
-        String line;
+        String fileUserName, fileFirstName, fileLastName, filePassword, line;
 
 
         File file = new File(String.valueOf(Paths.get("user.txt")));
         in = new Scanner(file);
-        while (in.hasNextLine()){
+        while (in.hasNextLine()) {
             line = in.nextLine();
             String split[] = line.trim().split(",");
-            receivedUserName = split[0];
-            receivedFirstName = split[1];
-            receivedLastName = split[2];
-            receivedPassword = split[3];
-            users.add(new User(receivedUserName, receivedFirstName, receivedLastName, receivedPassword));
+            fileUserName = split[0];
+            fileFirstName = split[1];
+            fileLastName = split[2];
+            filePassword = split[3];
+            users.add(new User(fileUserName, fileFirstName, fileLastName, filePassword));
 
         }
         in.close();

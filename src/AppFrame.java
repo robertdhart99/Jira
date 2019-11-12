@@ -6,6 +6,7 @@ public class AppFrame extends JFrame {
     public static final int HEIGHT = 500;
 
     public AppFrame(){
+        new LoginDemo();
         setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //add all panels and labels here
