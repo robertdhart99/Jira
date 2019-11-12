@@ -50,13 +50,11 @@ class LoginDemo extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent ae) {
+        // needs safe input - needs to loop till correct.
         String userName = userName_text.getText();
-        String password = password_text.getText();
-        User.login(userName,password);
-        if (userName.trim().equals("admin") && password.trim().equals("admin")) {
-            message.setText(" Hello " + userName + "");
-        } else {
-            message.setText(" Invalid user.. ");
-        }
+        String password = password_text.getText();// idk why this is crossed out "is deprecated"
+        message.setText(User.login(userName.trim(),password.trim()));
     }
+    // action listener goes here for create user. the last thing in this needs to be to call login()
+    //login(userName, password);// has them login after creating it.
 }

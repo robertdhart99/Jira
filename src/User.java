@@ -35,8 +35,14 @@ public class User {
         return receivedPassword;
     }
 
-    public static void login(String userName, String password) { // should take in the username and password as paramaters. this is public so it can be accessed from outside but the rest of the methods here are private.
-        checkUser(userName, encrypt(password));
+    public static String login(String userName, String password) { // should take in the username and password as paramaters. this is public so it can be accessed from outside but the rest of the methods here are private.
+        String message;
+        if (checkUser(userName, encrypt(password))) {
+            message = "Welcome " + userName + "!";
+        } else {
+            message = (" Invalid user.. ");
+        }
+        return message;
     }
 
     public static void createUser(String userName, String password) throws FileNotFoundException {
@@ -45,7 +51,6 @@ public class User {
         //safeinput to add the user
         writeToFile(userName, encrypt(password));
 
-        login(userName, password);// has them login after creating it to make sure
     }
 
     private static String encrypt(String passwordToHash) {
