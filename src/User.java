@@ -1,5 +1,7 @@
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class User {
-    private String key = "sundance";
     String fileUserName;
     String filePasswordEncrypted;
     String fileFirstName;
@@ -16,11 +18,33 @@ public class User {
 
         login(userName, password);// has them login after creating it to make sure
     }
-    private String encrypt(String password){
-        //encrypts with the key and returns encrypted password
-        String passwordToReturn = "";
+    private String encrypt(String passwordToHash){
 
-        return passwordToReturn;
+        // very basic and not all that secure - MD5
+        String generatedPassword = null;
+        try {
+            // Create MessageDigest instance for MD5
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            //Add password bytes to digest
+            md.update(passwordToHash.getBytes());
+            //Get the hash's bytes
+            byte[] bytes = md.digest();
+            //This bytes[] has bytes in decimal format;
+            //Convert it to hexadecimal format
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i< bytes.length ;i++)
+            {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            //Get complete hashed password in hex format
+            generatedPassword = sb.toString();
+        }
+        catch (NoSuchAlgorithmException e)
+        {
+            e.printStackTrace();
+        }
+
+        return generatedPassword;
     }
     private boolean checkUser(String userName, String passwordEncrypted){
         //checks the file using the username then checks then compares the hashed passwords to see if they are the same.
@@ -29,6 +53,8 @@ public class User {
     }
     private void writeToFile(String userName, String passwordEncrypted){
         //writes to the user file when making a new user
+        //file format: Bobbyhart9333, Bobby, Hart, 8390g3ugb2i0n29f0
+        //                userName    first  last  hashed passWord
     }
     private boolean checkUserExists(String userName){
         // returns true if user exists and false if does not. we want it to be false
