@@ -1,2 +1,2 @@
-public class Beer {
+public class Beer extends Alcoholic{
 }

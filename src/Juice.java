@@ -1,2 +1,2 @@
-public class Juice {
+public class Juice extends NoneAlcoholic{
 }

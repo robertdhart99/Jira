@@ -1,5 +1,11 @@
 public class User {
     private String key = "sundance";
+    String fileUserName;
+    String filePasswordEncrypted;
+    String fileFirstName;
+    String fileLastName;
+
+
     public void login(String userName, String password){ // should take in the username and password as paramaters. this is public so it can be accessed from outside but the rest of the methods here are private.
         checkUser(userName, encrypt(password));
     }

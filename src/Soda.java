@@ -1,2 +1,2 @@
-public class Soda {
+public class Soda extends NoneAlcoholic{
 }
